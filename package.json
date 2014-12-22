@@ -1,0 +1,35 @@
+{
+  "name": "regularify",
+  "version": "0.1.0",
+  "description": "a browserify transform for regularjs",
+  "main": "index.js",
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/regularjs/regularify.git"
+  },
+  "keywords": [
+    "browserify",
+    "transform",
+    "regularjs"
+  ],
+  "author": "leeluolee",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/regularjs/regularify/issues"
+  },
+  "homepage": "https://github.com/regularjs/regularify",
+  "dependencies": {
+    "regularjs": "regularjs/regular",
+    "through": "^2.3.6"
+  },
+  "devDependencies": {
+    "vinyl-source-stream": "^1.0.0",
+    "browserify": "^6.3.3"
+  }
+}
