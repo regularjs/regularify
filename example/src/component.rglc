@@ -1,0 +1,11 @@
+<div>{hello}</div> 
+{#list list as item}
+  <h2>{item}</h2>
+{/list}
+
+<script>
+ module.exports = {
+  name: "name"
+ } 
+
+</script>

@@ -9,8 +9,13 @@ var source = require('vinyl-source-stream');
 
 return browserify([path.join(__dirname, './src/index.js')])
   .transform(regularify({
-    BEGIN: '{', END: '}',
-    extensions: ['txt']
+    BEGIN: '{', 
+    END: '}',
+    rglExt: ["txt"]
   }))
   .bundle()
+  .on("error", function(err){
+    throw err
+  })
   .pipe(fs.createWriteStream( path.join(__dirname ,"./bundle.js")))
+

@@ -8,13 +8,31 @@ try{
 }
 
 
-var DEFAULT_EXTENSIONS = ['rgl', 'regular'];
+var DEFAULT_RGL_EXTENSION = ['rgl'];
+var DEFAULT_RGLC_EXTENSION = ['rglc'];
 
 function wrap(str, options){
   options =options || {};
   var code = parse(str, {BEGIN: options.BEGIN, END: options.END}) ;
-
   code = 'module.exports=' + code + '';
+  return code;
+}
+
+
+var rScript = /\<script(?:\>|\s[^>]*\>)([\s\S]+)\<\/script>/;
+var rTemplate = /\<template(?:\>|\s[^>]*\>)([\s\S]+)\<\/template>/;
+function wrapComponent(str, options){
+  var scriptRaw;
+  str = str.replace(rScript, function(all, script){
+    scriptRaw = script.trim();
+    //https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey/Parser_API
+    return "";
+  }).trim();
+
+  var code = parse(str, {BEGIN: options.BEGIN, END: options.END}) ;
+
+
+  code = "var template=" + code + ";" + scriptRaw;
   return code;
 }
 
@@ -23,10 +41,12 @@ module.exports = function(option){
 
   if(Array.isArray(option)) option = {extensions: option}
 
-  var extensions = ( option.extensions || [] ).concat( DEFAULT_EXTENSIONS );
+  var rglExt = ( option.rglExt || [] ).concat( DEFAULT_RGL_EXTENSION );
+  var rglcExt = ( option.rglcExt || [] ).concat( DEFAULT_RGLC_EXTENSION );
   var BEGIN = option.BEGIN, END = option.END;
 
-  var rMatch = new RegExp ("\\." + extensions.join("|") + "$")
+  var rglMatch = new RegExp ("\\." + rglExt.join("|") + "$")
+  var rglcMatch = new RegExp ("\\." + rglcExt.join("|") + "$")
 
 
   return function(file){
@@ -34,12 +54,24 @@ module.exports = function(option){
     function write(buffer){
       input += buffer;
     }
+    // rgl
     function end(){
       this.queue(wrap(input, {BEGIN: BEGIN, END: END} ));
       this.queue(null);
     }
-    var test = rMatch.test(file);
-    if(!test) return through();
-    else  return through(write, end)
+    // rglc
+    function endc(){
+      this.queue(wrapComponent(input, {BEGIN: BEGIN, END: END} ));
+      this.queue(null);
+    }
+    var test = rglMatch.test(file);
+    if(test) return through(write, end)
+
+    var test = rglcMatch.test(file);
+    if(test){
+       return through(write, endc)
+    }
+
+    return through();
   }
 };

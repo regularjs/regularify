@@ -1,6 +1,8 @@
 var tpl =  require("./index.rgl");
-var tpl2 =  require("./index2.txt");
+var tpl2 =  require("./index.txt");
 var Regular = require("regularjs");
+
+var Component2 = require("./component.rglc");
 
 
 var Component = Regular.extend({
