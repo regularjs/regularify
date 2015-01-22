@@ -1,6 +1,12 @@
 // regularify plugin
 var through = require("through");
-var parse = require("regularjs/src/node.js").parse;
+
+try{
+  var parse = require("regularjs/src/node.js").parse;
+}catch(e){
+  console.error("you need install regularjs local")
+}
+
 
 var DEFAULT_EXTENSIONS = ['rgl', 'regular'];
 
@@ -19,8 +25,6 @@ module.exports = function(option){
 
   var extensions = ( option.extensions || [] ).concat( DEFAULT_EXTENSIONS );
   var BEGIN = option.BEGIN, END = option.END;
-
-
 
   var rMatch = new RegExp ("\\." + extensions.join("|") + "$")
 

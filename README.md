@@ -15,7 +15,8 @@ var browserify = require('browserify');
 
 return browserify([path.join(__dirname, './src/index.js')])
   .transform(regularify({
-    BEGIN: '{', END: '}',
+    BEGIN: '{', 
+    END: '}',
     extensions: ['txt']
   }))
   .bundle()
