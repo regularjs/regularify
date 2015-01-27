@@ -1,8 +1,9 @@
 var tpl =  require("./index.rgl");
 var tpl2 =  require("./index.txt");
+var tpl2 =  require("./index.txt");
 var Regular = require("regularjs");
 
-var Component2 = require("./component.rglc");
+var Component3 = require("./component.rglc");
 
 
 var Component = Regular.extend({
@@ -20,5 +21,12 @@ var Component2 = Regular.extend({
 
 new Component().$inject("#app");
 new Component2().$inject("#app");
+new Component3({
+  data: {
+    hello: "name",
+    list: ["1", 2, 3]
+  }
+}).$inject("#app");
+
 
 

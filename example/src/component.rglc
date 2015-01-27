@@ -3,9 +3,13 @@
   <h2>{item}</h2>
 {/list}
 
+
 <script>
- module.exports = {
-  name: "name"
- } 
+
+var Regular = require("regularjs");
+
+module.exports = Regular.extend({
+  template: template
+})
 
 </script>

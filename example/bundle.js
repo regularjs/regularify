@@ -1,13 +1,16 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var template=[{"type":"element","tag":"div","attrs":[],"children":[{"type":"expression","body":"_c_._sg_('hello', _d_, 1)","constant":false,"setbody":"_c_._ss_('hello',_p_,_d_, '=', 1)"}]},{"type":"text","text":" \n"},{"type":"list","sequence":{"type":"expression","body":"_c_._sg_('list', _d_, 1)","constant":false,"setbody":"_c_._ss_('list',_p_,_d_, '=', 1)"},"variable":"item","body":[{"type":"text","text":"\n  "},{"type":"element","tag":"h2","attrs":[],"children":[{"type":"expression","body":"_c_._sg_('item', _d_, 1)","constant":false,"setbody":"_c_._ss_('item',_p_,_d_, '=', 1)"}]},{"type":"text","text":"\n"}]}];module.exports = {
-  name: "name"
- }
-},{}],2:[function(require,module,exports){
+var template=[{"type":"element","tag":"div","attrs":[],"children":[{"type":"expression","body":"_c_._sg_('hello', _d_, 1)","constant":false,"setbody":"_c_._ss_('hello',_p_,_d_, '=', 1)"}]},{"type":"text","text":" \n"},{"type":"list","sequence":{"type":"expression","body":"_c_._sg_('list', _d_, 1)","constant":false,"setbody":"_c_._ss_('list',_p_,_d_, '=', 1)"},"variable":"item","body":[{"type":"text","text":"\n  "},{"type":"element","tag":"h2","attrs":[],"children":[{"type":"expression","body":"_c_._sg_('item', _d_, 1)","constant":false,"setbody":"_c_._ss_('item',_p_,_d_, '=', 1)"}]},{"type":"text","text":"\n"}]}];var Regular = require("regularjs");
+
+module.exports = Regular.extend({
+  template: template
+})
+},{"regularjs":23}],2:[function(require,module,exports){
 var tpl =  require("./index.rgl");
+var tpl2 =  require("./index.txt");
 var tpl2 =  require("./index.txt");
 var Regular = require("regularjs");
 
-var Component2 = require("./component.rglc");
+var Component3 = require("./component.rglc");
 
 
 var Component = Regular.extend({
@@ -25,13 +28,20 @@ var Component2 = Regular.extend({
 
 new Component().$inject("#app");
 new Component2().$inject("#app");
+new Component3({
+  data: {
+    hello: "name",
+    list: ["1", 2, 3]
+  }
+}).$inject("#app");
+
 
 
 
 },{"./component.rglc":1,"./index.rgl":3,"./index.txt":4,"regularjs":23}],3:[function(require,module,exports){
 module.exports=[{"type":"element","tag":"ul","attrs":[],"children":[{"type":"text","text":"  \n"},{"type":"list","sequence":{"type":"expression","body":"_c_._sg_('list', _d_, 1)","constant":false,"setbody":"_c_._ss_('list',_p_,_d_, '=', 1)"},"variable":"item","body":[{"type":"text","text":"\n  "},{"type":"element","tag":"li","attrs":[],"children":[{"type":"expression","body":"_c_._sg_('item', _d_, 1)","constant":false,"setbody":"_c_._ss_('item',_p_,_d_, '=', 1)"}]},{"type":"text","text":"\n"}]},{"type":"text","text":"\n"}]}]
 },{}],4:[function(require,module,exports){
-module.exports=[]
+module.exports=[{"type":"element","tag":"div","attrs":[],"children":[{"type":"expression","body":"_c_._sg_('name', _d_, 1)","constant":false,"setbody":"_c_._ss_('name',_p_,_d_, '=', 1)"}]}]
 },{}],5:[function(require,module,exports){
 
 var Lexer = require("./parser/Lexer.js");

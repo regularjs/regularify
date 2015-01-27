@@ -1,6 +1,6 @@
 {
   "name": "regularify",
-  "version": "0.2.0",
+  "version": "0.3.0-pre",
   "description": "a browserify transform for regularjs",
   "main": "index.js",
   "directories": {

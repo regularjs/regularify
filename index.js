@@ -29,6 +29,8 @@ function wrapComponent(str, options){
     return "";
   }).trim();
 
+
+  // TODO: 
   var code = parse(str, {BEGIN: options.BEGIN, END: options.END}) ;
 
 
