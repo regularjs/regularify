@@ -2,6 +2,9 @@
 {#list list as item}
   <h2>{item}</h2>
 {/list}
+<div class="col-sm-2">
+  content body
+</div>
 
 
 <script>
