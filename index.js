@@ -15,23 +15,22 @@ try{
 var DEFAULT_RGL_EXTENSION = ['rgl'];
 var DEFAULT_RGLC_EXTENSION = ['rglc'];
 
-function wrap(str, options){
+function wrap(str, options, callback){
   options =options || {};
 
   try{
     var code = parse(str, {BEGIN: options.BEGIN, END: options.END, stringify:true}) ;
   }catch(e){
-    console.error(e);
-    code= "[]";
+    callback(e)
   }
   code = 'module.exports=' + code + '';
-  return code;
+  callback(null, code)
 }
 
 
 var rScript = /\<script(?:\>|\s[^>]*\>)([\s\S]+)\<\/script>/;
 var rTemplate = /\<template(?:\>|\s[^>]*\>)([\s\S]+)\<\/template>/;
-function wrapComponent(str, options){
+function wrapComponent(str, options, callback){
   var scriptRaw;
   str = str.replace(rScript, function(all, script){
     scriptRaw = script.trim();
@@ -44,12 +43,11 @@ function wrapComponent(str, options){
   try{
     var code = parse(str, {BEGIN: options.BEGIN, END: options.END, stringify:true}) ;
   }catch(e){
-    console.error(e);
-    code= "[]";
+    return callback(e)
   }
 
   code = "var template=" + code + ";" + scriptRaw;
-  return code;
+  callback(null ,code);
 }
 
 module.exports = function(option){
@@ -72,13 +70,21 @@ module.exports = function(option){
     }
     // rgl
     function end(){
-      this.queue(wrap(input, {BEGIN: BEGIN, END: END} ));
-      this.queue(null);
+      var self = this;
+      wrap(input, {BEGIN: BEGIN, END: END}, function(error, code){
+        if(error) return console.error(file +":\n" + error)
+        self.queue(code);
+        self.queue(null);
+      } )
     }
     // rglc
     function endc(){
-      this.queue(wrapComponent(input, {BEGIN: BEGIN, END: END} ));
-      this.queue(null);
+      var self = this;
+      wrapComponent(input, {BEGIN: BEGIN, END: END}, function(error, code){
+        if(error) return console.error(file + ":\n" + error)
+        self.queue(code);
+        self.queue(null);
+      } )
     }
     var test = rglMatch.test(file);
     if(test) return through(write, end)
