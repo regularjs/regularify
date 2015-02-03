@@ -19,7 +19,7 @@ function wrap(str, options){
   options =options || {};
 
   try{
-    var code = parse(str, {BEGIN: options.BEGIN, END: options.END}) ;
+    var code = parse(str, {BEGIN: options.BEGIN, END: options.END, stringify:true}) ;
   }catch(e){
     console.error(e);
     code= "[]";
@@ -42,7 +42,7 @@ function wrapComponent(str, options){
 
   // TODO: 
   try{
-    var code = parse(str, {BEGIN: options.BEGIN, END: options.END}) ;
+    var code = parse(str, {BEGIN: options.BEGIN, END: options.END, stringify:true}) ;
   }catch(e){
     console.error(e);
     code= "[]";
