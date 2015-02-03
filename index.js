@@ -2,9 +2,13 @@
 var through = require("through");
 
 try{
-  var parse = require("regularjs/src/node.js").parse;
+  var parse = require("regularjs").parse;
 }catch(e){
-  console.error("you need install regularjs local")
+  try{
+    var parse = require("regularjs/src/node").parse;
+  }catch(e){
+    console.error("you need install regularjs local")
+  }
 }
 
 
@@ -13,7 +17,13 @@ var DEFAULT_RGLC_EXTENSION = ['rglc'];
 
 function wrap(str, options){
   options =options || {};
-  var code = parse(str, {BEGIN: options.BEGIN, END: options.END}) ;
+
+  try{
+    var code = parse(str, {BEGIN: options.BEGIN, END: options.END}) ;
+  }catch(e){
+    console.error(e);
+    code= "[]";
+  }
   code = 'module.exports=' + code + '';
   return code;
 }
@@ -31,8 +41,12 @@ function wrapComponent(str, options){
 
 
   // TODO: 
-  var code = parse(str, {BEGIN: options.BEGIN, END: options.END}) ;
-
+  try{
+    var code = parse(str, {BEGIN: options.BEGIN, END: options.END}) ;
+  }catch(e){
+    console.error(e);
+    code= "[]";
+  }
 
   code = "var template=" + code + ";" + scriptRaw;
   return code;
@@ -43,12 +57,12 @@ module.exports = function(option){
 
   if(Array.isArray(option)) option = {extensions: option}
 
-  var rglExt = ( option.rglExt || [] ).concat( DEFAULT_RGL_EXTENSION );
-  var rglcExt = ( option.rglcExt || [] ).concat( DEFAULT_RGLC_EXTENSION );
+  var rgl = ( option.rgl || [] ).concat( DEFAULT_RGL_EXTENSION );
+  var rglc = ( option.rglc || [] ).concat( DEFAULT_RGLC_EXTENSION );
   var BEGIN = option.BEGIN, END = option.END;
 
-  var rglMatch = new RegExp ("\\." + rglExt.join("|") + "$")
-  var rglcMatch = new RegExp ("\\." + rglcExt.join("|") + "$")
+  var rglMatch = new RegExp ("\\." + rgl.join("|") + "$")
+  var rglcMatch = new RegExp ("\\." + rglc.join("|") + "$")
 
 
   return function(file){
