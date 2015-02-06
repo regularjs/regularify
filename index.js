@@ -46,7 +46,8 @@ function wrapComponent(str, options, callback){
     return callback(e)
   }
 
-  code = "var template=" + code + ";" + scriptRaw;
+  code = "var template=" + code + ",Regular=require('regularjs');" + scriptRaw;
+  code += ";if(typeof module.exports === 'object') module.exports = Regular.extend(module.exports);var proto =module.exports.prototype; if(!proto.hasOwnProperty('template')){proto.template=template}"
   callback(null ,code);
 }
 
